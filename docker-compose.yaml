@@ -3,7 +3,7 @@ services:
 
   geth:
     image: "ghcr.io/wasm0/zkwasm-geth"
-    build: "./zkwasm-geth"
+#    build: "./zkwasm-geth"
     command:
       - "geth"
       - "--datadir=/datadir"
@@ -28,7 +28,7 @@ services:
 
   faucet:
     image: "ghcr.io/wasm0/zkwasm-geth"
-    build: "./zkwasm-geth"
+#    build: "./zkwasm-geth"
     command:
       - "faucet"
       - "--genesis=/datadir/genesis.json"
@@ -82,30 +82,30 @@ services:
       ECTO_USE_SSL: "false"
     ports:
       - "4000:4000"
-  blockscout-redis:
-    image: redis
-    command: redis-server --requirepass 123456
-    volumes:
-      - ./datadir/redis:/data
-    ports:
-      - "6379:6379"
-    restart: always
-  blockscout-gateway:
-    depends_on:
-      - blockscout
-    image: ankrnetwork/sidechain-explorer:devel
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
-    environment:
-      DATABASE_POSTGRES_URL: "postgres://postgres:@host.docker.internal:7432/blockscout?sslmode=disable"
-      DATABASE_REDIS_URL: "host.docker.internal:6379"
-      DATABASE_REDIS_PASSWORD: "123456"
-      GATEWAY_HTTP_ADDRESS: ":9000"
-      STAKING_ETH1_URL: "http://host.docker.internal:8545/"
-      REACT_APP_API_ENDPOINT: "/"
-      REACT_APP_DEFAULT_NETWORK: "default"
-    ports:
-      - "9000:9000"
+#  blockscout-redis:
+#    image: redis
+#    command: redis-server --requirepass 123456
+#    volumes:
+#      - ./datadir/redis:/data
+#    ports:
+#      - "6379:6379"
+#    restart: always
+#  blockscout-gateway:
+#    depends_on:
+#      - blockscout
+#    image: ankrnetwork/sidechain-explorer:devel
+#    extra_hosts:
+#      - 'host.docker.internal:host-gateway'
+#    environment:
+#      DATABASE_POSTGRES_URL: "postgres://postgres:@host.docker.internal:7432/blockscout?sslmode=disable"
+#      DATABASE_REDIS_URL: "host.docker.internal:6379"
+#      DATABASE_REDIS_PASSWORD: "123456"
+#      GATEWAY_HTTP_ADDRESS: ":9000"
+#      STAKING_ETH1_URL: "http://host.docker.internal:8545/"
+#      REACT_APP_API_ENDPOINT: "/"
+#      REACT_APP_DEFAULT_NETWORK: "default"
+#    ports:
+#      - "9000:9000"
 
   nginx:
     build: "./nginx"

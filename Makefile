@@ -1,12 +1,13 @@
 .PHONE: install-docker install-acme start check-env start stop reset-explorer delete-state reset all
 
 check-env:
-ifndef DOMAIN_NAME
-	$(warning env DOMAIN_NAME is undefined)
-endif
-ifndef CHAIN_ID
-	$(error env CHAIN_ID is undefined)
-endif
+	export CHAIN_ID=99
+#ifndef DOMAIN_NAME
+#	$(warning env DOMAIN_NAME is undefined)
+#endif
+#ifndef CHAIN_ID
+#	$(error env CHAIN_ID is undefined)
+#endif
 
 install-docker:
 	bash ./scripts/install-docker.bash
