@@ -7,7 +7,6 @@ services:
     command:
       - "geth"
       - "--datadir=/datadir"
-      - "--genesis=/datadir/genesis.json"
       - "--mine"
       - "--password=/datadir/password.txt"
       - "--allow-insecure-unlock"
@@ -31,7 +30,6 @@ services:
 #    build: "./wasm0-geth"
     command:
       - "faucet"
-      - "--genesis=/datadir/genesis.json"
       - "--bootnodes=enode://5c8e90050fabb7e14e4921dc107caf533140112245e7a231d0edc49861cd779760ad4804e7034952a5cc79422fa9d31c54e9a6141fb4995af7a6bfce7a39140f@host.docker.internal:30303"
       - "--network=17243"
       - "--account.json=/datadir/keystore/UTC--2022-02-02T10-59-47.185Z--b891fe7b38f857f53a7b5529204c58d5c487280b"
