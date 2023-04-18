@@ -28,6 +28,9 @@ reset-explorer: check-env stop
 	rm -rf ./datadir/blockscout
 	cat ./docker-compose.yaml | envsubst | docker-compose -f - up -d
 
+init-genesis-state:
+	docker run --platform=linux/amd64 -it -v "$(shell pwd):/devnet" --rm ghcr.io/wasm0/zkwasm-geth --datadir=/devnet/datadir init /devnet/genesis/devnet.json
+
 delete-state:
 	rm -rf ./datadir
 

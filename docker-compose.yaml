@@ -2,8 +2,8 @@ version: "3.5"
 services:
 
   geth:
-    image: "ghcr.io/wasm0/zkwasm-geth"
-#    build: "./zkwasm-geth"
+    image: "ghcr.io/wasm0/wasm0-geth"
+#    build: "./wasm0-geth"
     command:
       - "geth"
       - "--datadir=/datadir"
@@ -27,8 +27,8 @@ services:
     restart: always
 
   faucet:
-    image: "ghcr.io/wasm0/zkwasm-geth"
-#    build: "./zkwasm-geth"
+    image: "ghcr.io/wasm0/wasm0-geth"
+#    build: "./wasm0-geth"
     command:
       - "faucet"
       - "--genesis=/datadir/genesis.json"
