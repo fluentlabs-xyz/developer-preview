@@ -3,7 +3,7 @@ services:
 
   geth:
     image: "ghcr.io/wasm0/wasm0-geth"
-#    build: "./wasm0-geth"
+#    build: "../wasm0-geth"
     command:
       - "geth"
       - "--datadir=/datadir"
@@ -41,7 +41,7 @@ services:
 
   faucet:
     image: "ghcr.io/wasm0/wasm0-geth"
-#    build: "./wasm0-geth"
+#    build: "../wasm0-geth"
     command:
       - "faucet"
       - "--genesis=/datadir/genesis.json"

@@ -1,6 +1,3 @@
 [submodule "genesis"]
 	path = genesis
 	url = https://github.com/wasm0/zkwasm-genesis-config
-[submodule "geth"]
-	path = geth
-	url = https://github.com/wasm0/zkwasm-geth
