@@ -37,7 +37,7 @@ services:
     restart: always
 
   faucet:
-    image: "ghcr.io/wasm0/wasm0-geth"
+    image: "ankrnetwork/bas-template-bsc:devel"
 #    build: "./wasm0-geth"
     command:
       - "faucet"
@@ -48,7 +48,7 @@ services:
       - "--account.pass=/datadir/password.txt"
       - "--noauth=true"
       - "--rpcapi=ws://host.docker.internal:8546"
-      - "--faucet.name=BAS"
+      - "--faucet.name=WASM-0"
       - "--faucet.amount=10"
       - "--faucet.tiers=5"
     ports:
