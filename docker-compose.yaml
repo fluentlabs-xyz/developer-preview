@@ -40,7 +40,7 @@ services:
     restart: always
 
   faucet:
-    image: "ankrnetwork/bas-template-bsc:devel"
+    image: "ghcr.io/wasm0/wasm0-geth"
 #    build: "./wasm0-geth"
     command:
       - "faucet"
