@@ -34,6 +34,6 @@ init-genesis-state:
 delete-state:
 	rm -rf ./datadir
 
-reset: stop delete-state
+reset: stop delete-state init-genesis-state
 
 all: start
