@@ -47,7 +47,7 @@ services:
       - "--account.json=/datadir/keystore/UTC--2022-02-02T10-59-47.185Z--b891fe7b38f857f53a7b5529204c58d5c487280b"
       - "--account.pass=/datadir/password.txt"
       - "--noauth=true"
-      - "--rpcapi=ws://host.docker.internal:8546"
+      - "--rpcapi=ws://geth:8546"
       - "--faucet.name=WASM-0"
       - "--faucet.amount=10"
       - "--faucet.tiers=5"
