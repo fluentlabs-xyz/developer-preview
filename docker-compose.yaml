@@ -12,7 +12,7 @@ services:
       - "--http"
       - "--ws"
     volumes:
-      - "./datadir/geth:/datadir/geth"
+      - "./datadir:/datadir"
     ports:
       - "8545:8545"
       - "8546:8546"
