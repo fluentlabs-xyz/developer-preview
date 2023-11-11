@@ -1,7 +1,7 @@
 .PHONE: install-docker install-acme start check-env start stop reset-explorer delete-state reset all
 
 check-env:
-	export CHAIN_ID=99
+	export CHAIN_ID=1337
 #ifndef DOMAIN_NAME
 #	$(warning env DOMAIN_NAME is undefined)
 #endif
@@ -13,7 +13,7 @@ install-docker:
 	bash ./scripts/install-docker.bash
 
 install-acme:
-	curl https://get.acme.sh | sh -s email=dmitry@ankr.com || true
+	curl https://get.acme.sh || true
 	bash ./scripts/issue-cert.bash
 
 start: check-env
@@ -29,7 +29,7 @@ reset-explorer: check-env stop
 	cat ./docker-compose.yaml | envsubst | docker-compose -f - up -d
 
 init-genesis-state:
-	docker run --platform=linux/amd64 -it -v "$(shell pwd):/devnet" --rm ghcr.io/wasm0/wasm0-geth geth --datadir=/devnet/datadir init /devnet/genesis/devnet.json
+	docker run --platform=linux/amd64 -it -v "$(shell pwd):/devnet" --rm ghcr.io/fluentlabs-xyz/fluent --chain=dev init --datadir=/devnet/datadir
 
 delete-state:
 	rm -rf ./datadir
