@@ -28,6 +28,13 @@ services:
       - 'host.docker.internal:host-gateway'
     restart: always
 
+  faucet:
+    image: chainflag/eth-faucet:1.1.0
+    environment:
+      WEB3_PROVIDER: "https://rpc.dev0.fluentlabs.xyz/"
+      PRIVATE_KEY: "ac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
+    restart: always
+
 #  blockscout-db:
 #    image: postgres:13.6
 #    restart: always
