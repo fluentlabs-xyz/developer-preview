@@ -35,11 +35,12 @@ delete-state:
 	rm -rf ./datadir
 
 reset-blockscout:
-	docker compose -f ./blockscout/geth.yml down
-	rm -rf ./blockscout/services/blockscout-db-data
-	rm -rf ./blockscout/services/logs
-	rm -rf ./blockscout/services/redis-data
-	rm -rf ./blockscout/services/stats-db-data
+	docker compose -f ./blockscout/geth.yml down || true
+	rm -rf ./blockscout/services/blockscout-db-data || true
+	rm -rf ./blockscout/services/logs || true
+	rm -rf ./blockscout/services/redis-data || true
+	rm -rf ./blockscout/services/stats-db-data || true
+	docker compose -f ./blockscout/geth.yml up -d
 
 reset: stop delete-state init-genesis-state
 
