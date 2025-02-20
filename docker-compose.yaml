@@ -29,10 +29,12 @@ services:
     restart: always
   faucet:
     image: chainflag/eth-faucet:1.1.0
+    command:
+     - "--proxycount=1"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${PRIVATE_KEY}"
-    network_mode: host
+      PROXYCOUNT: "1"
     restart: always
   relayer:
     image: "ghcr.io/fluentlabs-xyz/bridge-relayer:latest"
