@@ -18,7 +18,6 @@ services:
       - "--ws.api=eth,net,web3,debug,trace,txpool"
       - "--ws.port=8546"
       - "--ws.origins=*"
-      - "--engine.legacy"
     volumes:
       - "./datadir:/datadir"
     ports:
