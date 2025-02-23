@@ -18,7 +18,7 @@ services:
       - "--ws.api=eth,net,web3,debug,trace,txpool"
       - "--ws.port=8546"
       - "--ws.origins=*"
-      - "--builder.gaslimit 300000000"
+      - "--builder.gaslimit=300000000"
     volumes:
       - "./datadir:/datadir"
     ports:
