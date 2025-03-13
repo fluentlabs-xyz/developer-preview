@@ -18,7 +18,10 @@ services:
       - "--ws.api=eth,net,web3,debug,trace,txpool"
       - "--ws.port=8546"
       - "--ws.origins=*"
-      - "--builder.gaslimit=300000000"
+      - "--engine.persistence-threshold=0" 
+      - "--engine.memory-block-buffer-target=0" 
+      - "--txpool.gas-limit=3000000000"
+      - "--builder.gaslimit=3000000000"
     volumes:
       - "./datadir:/datadir"
     ports:
@@ -30,11 +33,11 @@ services:
   faucet:
     image: chainflag/eth-faucet:1.1.0
     command:
-     - "--proxycount=1"
+     - "--proxycount=2"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${PRIVATE_KEY}"
-      PROXYCOUNT: "1"
+      PROXYCOUNT: "2"
     restart: always
   relayer:
     image: "ghcr.io/fluentlabs-xyz/bridge-relayer:latest"
