@@ -44,6 +44,7 @@ services:
         ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545/
         ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545/
         ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8545/
+        JSON_RPC: http://host.docker.internal:8545/
         CHAIN_ID: '1337'
 
   visualizer:
@@ -62,7 +63,9 @@ services:
     extends:
       file: ./services/frontend.yml
       service: frontend
-
+    environment:
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: "2e84a2d5eee1827d4d2a89625741c51f"
+      NEXT_PUBLIC_NETWORK_RPC_URL: "https://rpc.dev.gblend.xyz"
   stats-db-init:
     extends:
       file: ./services/stats.yml
