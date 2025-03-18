@@ -18,8 +18,8 @@ services:
       - "--ws.api=eth,net,web3,debug,trace,txpool"
       - "--ws.port=8546"
       - "--ws.origins=*"
-      - "--engine.persistence-threshold=0" 
-      - "--engine.memory-block-buffer-target=0" 
+      - "--engine.persistence-threshold=0"
+      - "--engine.memory-block-buffer-target=0"
       - "--txpool.gas-limit=3000000000"
       - "--builder.gaslimit=3000000000"
     volumes:
@@ -28,16 +28,43 @@ services:
       - "8545:8545"
       - "8546:8546"
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - "host.docker.internal:host-gateway"
     restart: always
   faucet:
     image: chainflag/eth-faucet:1.1.0
     command:
-     - "--proxycount=2"
+      - "--proxycount=2"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${PRIVATE_KEY}"
       PROXYCOUNT: "2"
+    restart: always
+  rundler:
+    image: "ghcr.io/fluentlabs-xyz/rundler:v0.6.0"
+    command: node
+    environment:
+      # Core settings
+      - RUST_LOG=info
+      - NODE_HTTP=http://fluent:8545
+      - BUILDER_PRIVATE_KEY=${RUNDLER_PRIVATE_KEY}
+      - NETWORK=fluent_dev
+
+      # RPC settings
+      - RPC_HOST=0.0.0.0
+      - RPC_PORT=8645
+      - RPC_API=eth,debug,rundler
+
+      # Metrics settings
+      - METRICS_HOST=0.0.0.0
+      - METRICS_PORT=8646
+
+      # Entry point settings
+      - DISABLE_ENTRY_POINT_V0_6=true
+    ports:
+      - "8645:8645"  # RPC
+      - "8646:8646"  # Metrics
+    depends_on:
+      - fluent
     restart: always
   relayer:
     image: "ghcr.io/fluentlabs-xyz/bridge-relayer:latest"
@@ -64,7 +91,7 @@ services:
     volumes:
       - /root/.acme.sh/:/root/.acme.sh/
     extra_hosts:
-      - 'host.docker.internal:host-gateway'
+      - "host.docker.internal:host-gateway"
     ports:
       - "443:443"
       - "80:80"
@@ -74,8 +101,3 @@ services:
     restart: always
     volumes:
       - ~/redis/dаta:/root/redis
-#  blockscout-frontend:
-#    image: ghcr.io/fluentlabs-xyz/blockscout-frontend:main
-#    env_file:
-#      -  ./blockscout/envs/common-frontend.env
-#    restart: always
