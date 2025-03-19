@@ -31,13 +31,15 @@ services:
       - "host.docker.internal:host-gateway"
     restart: always
   faucet:
-    image: chainflag/eth-faucet:1.1.0
+    image: chainflag/eth-faucet:1.2.0
     command:
       - "--proxycount=2"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${PRIVATE_KEY}"
       PROXYCOUNT: "2"
+      HCAPTCHA_SITEKEY: "${HCAPTCHA_SITEKEY}"
+      HCAPTCHA_SECRET: "${HCAPTCHA_SECRET}"
     restart: always
   rundler:
     image: "ghcr.io/fluentlabs-xyz/rundler:v0.6.0"
