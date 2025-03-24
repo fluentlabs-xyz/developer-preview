@@ -7,6 +7,7 @@ services:
       - "node"
       - "--datadir=/datadir"
       - "--dev"
+      - "--dev.block-time=3sec"
       - "--full"
       - "--http"
       - "--http.addr=0.0.0.0"
