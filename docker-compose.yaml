@@ -57,6 +57,7 @@ services:
       - RPC_PORT=8645
       - RPC_API=eth,debug,rundler
       - RPC_CORSDOMAIN=*
+      - RPC_USER_OPERATION_EVENT_BLOCK_DISTANCE=10000
 
       # Metrics settings
       - METRICS_HOST=0.0.0.0
