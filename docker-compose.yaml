@@ -51,13 +51,13 @@ services:
       - NODE_HTTP=http://fluent:8545
       - BUILDER_PRIVATE_KEY=${RUNDLER_PRIVATE_KEY}
       - NETWORK=fluent_dev
+      - USER_OPERATION_EVENT_BLOCK_DISTANCE=10000
 
       # RPC settings
       - RPC_HOST=0.0.0.0
       - RPC_PORT=8645
       - RPC_API=eth,debug,rundler
       - RPC_CORSDOMAIN=*
-      - RPC_USER_OPERATION_EVENT_BLOCK_DISTANCE=10000
 
       # Metrics settings
       - METRICS_HOST=0.0.0.0
