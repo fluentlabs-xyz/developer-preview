@@ -32,7 +32,7 @@ services:
       - "host.docker.internal:host-gateway"
     restart: always
   faucet:
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.1"
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.2"
     command:
       - "--proxycount=2"
     environment:
