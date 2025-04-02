@@ -1,0 +1,14 @@
+apiVersion: 1
+
+providers:
+  - name: 'Fluent'
+    allowUiUpdates: true
+    folder: 'fluent'
+    options:
+      path: /etc/grafana/provisioning/dashboards/fluent
+  - name: 'Faucet'
+    allowUiUpdates: true
+    folder: 'faucet'
+    options:
+      path: /etc/grafana/provisioning/dashboards/faucet
+

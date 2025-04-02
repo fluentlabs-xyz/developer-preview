@@ -1,0 +1,16 @@
+scrape_configs:
+  - job_name: reth
+    metrics_path: "/"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['fluent:9091']
+  - job_name: ethereum-metrics-exporter
+    metrics_path: "/metrics"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['ethereum-metrics-exporter:9090']
+  - job_name: faucet
+    metrics_path: "/metrics"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['faucet:9090']
