@@ -24,13 +24,13 @@ services:
       - "--engine.memory-block-buffer-target=0"
       - "--txpool.gas-limit=3000000000"
       - "--builder.gaslimit=3000000000"
-      - "--metrics=0.0.0.0:9001"
+      - "--metrics=0.0.0.0:9091"
     volumes:
       - "./datadir:/datadir"
     ports:
       - "8545:8545"
       - "8546:8546"
-      - "9001:9001"
+      - "9091:9091"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     restart: always
@@ -82,9 +82,10 @@ services:
       - "--config=/config.yaml"
     restart: unless-stopped
   faucet:
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.2"
-    command:
-      - "--proxycount=2"
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
+    ports:
+      - "9099:9090"
+      - "8080:8080"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${PRIVATE_KEY}"

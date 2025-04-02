@@ -3,9 +3,14 @@ scrape_configs:
     metrics_path: "/"
     scrape_interval: 5s
     static_configs:
-      - targets: ['host.docker.internal:9001']
+      - targets: ['host.docker.internal:9091']
   - job_name: ethereum-metrics-exporter
     metrics_path: "/metrics"
     scrape_interval: 5s
     static_configs:
       - targets: ['host.docker.internal:9098']
+  - job_name: faucet
+    metrics_path: "/metrics"
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['host.docker.internal:9099']
