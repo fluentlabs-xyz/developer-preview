@@ -87,7 +87,7 @@ services:
     restart: unless-stopped
 
   faucet:
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet-m4:v1.2.3"
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
     command:
       - "--proxycount=2"
     ports:
