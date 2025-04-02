@@ -59,14 +59,14 @@ services:
       - 3001:3000
     environment:
       PROMETHEUS_URL: http://prometheus:9090
-      GRAFANA_AUTH_GOOGLE_CLIENT_ID: "${GRAFANA_AUTH_GOOGLE_CLIENT_ID}"
-      GRAFANA_AUTH_GOOGLE_CLIENT_SECRET: "${GRAFANA_AUTH_GOOGLE_CLIENT_SECRET}"
-      GRAFANA_ROOT_URL: "https://dashboard.${DOMAIN_NAME}/"
+      AUTH_GOOGLE_CLIENT_ID: "${GRAFANA_AUTH_GOOGLE_CLIENT_ID}"
+      AUTH_GOOGLE_CLIENT_SECRET: "${GRAFANA_AUTH_GOOGLE_CLIENT_SECRET}"
+      ROOT_URL: "https://dashboard.${DOMAIN_NAME}/"
     volumes:
       - ./.data/monitoring/grafana:/var/lib/grafana
       - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./monitoring/grafana/dashboards:/etc/grafana/provisioning_temp/dashboards
-      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
+      - ./monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini
     # 1. Copy dashboards from temp directory to prevent modifying original host files
     # 2. Replace Prometheus datasource placeholder with the actual name
     # 3. Run Grafana
