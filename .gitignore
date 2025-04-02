@@ -14,4 +14,4 @@ blockscout/services/redis-data/
 blockscout/services/stats-db-data/
 
 
-monitoring/data
+/.data/

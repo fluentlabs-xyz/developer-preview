@@ -44,7 +44,7 @@ services:
       - 9090:9090
     volumes:
       - ./monitoring/prometheus/:/etc/prometheus/
-      - ./monitoring/data/prometheus:/prometheus
+      - ./.data/monitoring/prometheus:/prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
@@ -59,10 +59,14 @@ services:
       - 3001:3000
     environment:
       PROMETHEUS_URL: http://prometheus:9090
+      GRAFANA_AUTH_GOOGLE_CLIENT_ID: "${GRAFANA_AUTH_GOOGLE_CLIENT_ID}"
+      GRAFANA_AUTH_GOOGLE_CLIENT_SECRET: "${GRAFANA_AUTH_GOOGLE_CLIENT_SECRET}"
+      GRAFANA_ROOT_URL: "https://dashboard.${DOMAIN_NAME}/"
     volumes:
-      - ./monitoring/data/grafana:/var/lib/grafana
+      - ./.data/monitoring/grafana:/var/lib/grafana
       - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./monitoring/grafana/dashboards:/etc/grafana/provisioning_temp/dashboards
+      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
     # 1. Copy dashboards from temp directory to prevent modifying original host files
     # 2. Replace Prometheus datasource placeholder with the actual name
     # 3. Run Grafana
@@ -81,6 +85,7 @@ services:
     command:
       - "--config=/config.yaml"
     restart: unless-stopped
+
   faucet:
     image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
     ports:
@@ -92,7 +97,10 @@ services:
       PROXYCOUNT: "2"
       HCAPTCHA_SITEKEY: "${HCAPTCHA_SITEKEY}"
       HCAPTCHA_SECRET: "${HCAPTCHA_SECRET}"
+    depends_on:
+      - fluent
     restart: always
+
   rundler:
     image: "ghcr.io/fluentlabs-xyz/rundler:v0.6.0"
     command: node
