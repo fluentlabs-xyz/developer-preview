@@ -87,14 +87,14 @@ services:
     restart: unless-stopped
 
   faucet:
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet-m4:v1.2.3"
+    command:
+      - "--proxycount=2"
     ports:
       - "9099:9090"
-      - "8080:8080"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${PRIVATE_KEY}"
-      PROXYCOUNT: "2"
       HCAPTCHA_SITEKEY: "${HCAPTCHA_SITEKEY}"
       HCAPTCHA_SECRET: "${HCAPTCHA_SECRET}"
     depends_on:
