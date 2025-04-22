@@ -135,7 +135,7 @@ services:
     environment:
       L1_CONFIG_ENDPOINT: "https://ethereum-holesky-rpc.publicnode.com"
       L1_CONFIG_WS: "wss://ethereum-holesky-rpc.publicnode.com"
-      L1_CONFIG_BRIDGE_ADDRESS: "0xc60ddff552fB74A847e0F360f5C9106249dF206f"
+      L1_CONFIG_BRIDGE_ADDRESS: "0x5239B4bd18Aaf0B4ece18D30Db1aE452AB50FdB9"
       L1_CONFIG_SIGNER: "e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7"
       L2_CONFIG_ENDPOINT: "https://rpc.${DOMAIN_NAME}/"
       L2_CONFIG_WS: "wss://rpc.${DOMAIN_NAME}/ws"
