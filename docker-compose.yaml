@@ -100,7 +100,25 @@ services:
     depends_on:
       - fluent
     restart: always
-
+  faucet-api: # faucet in api only mode
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.4"
+    command:
+      - "--proxycount=2"
+      - "--apionly"
+      - "--httpport=9090"
+      - "--corsallowed=http://localhost,http://127.0.0.1"
+      - "--corsheaders=Content-Type,h-captcha-response"
+      - "--corsmethods=GET,POST,OPTIONS"
+    ports:
+      - "9097:9090"
+    environment:
+      WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
+      PRIVATE_KEY: "${FAUCET_API_PRIVATE_KEY}"
+      HCAPTCHA_SITEKEY: "${HCAPTCHA_SITEKEY}"
+      HCAPTCHA_SECRET: "${HCAPTCHA_SECRET}"
+    depends_on:
+      - fluent
+    restart: always
   rundler:
     image: "ghcr.io/fluentlabs-xyz/rundler:v0.6.0"
     command: node
