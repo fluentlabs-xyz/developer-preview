@@ -106,7 +106,7 @@ services:
       - "--proxycount=2"
       - "--api.only"
       - "--httpport=9091"
-      - "--api.cors.allowed=http://localhost,http://127.0.0.1"
+      - "--api.cors.allowed=https://dev.gblend.xyz/"
       - "--api.cors.headers=Content-Type,h-captcha-response"
       - "--api.cors.methods=GET,POST,OPTIONS"
     ports:
