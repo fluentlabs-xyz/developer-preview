@@ -101,7 +101,7 @@ services:
       - fluent
     restart: always
   faucet-api: # faucet in api only mode
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.4"
     command:
       - "--proxycount=2"
       - "--api.only"
