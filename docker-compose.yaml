@@ -101,14 +101,14 @@ services:
       - fluent
     restart: always
   faucet-api: # faucet in api only mode
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.4"
+    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
     command:
       - "--proxycount=2"
-      - "--apionly"
+      - "--api.only"
       - "--httpport=9090"
-      - "--corsallowed=http://localhost,http://127.0.0.1"
-      - "--corsheaders=Content-Type,h-captcha-response"
-      - "--corsmethods=GET,POST,OPTIONS"
+      - "--api.cors.allowed=http://localhost,http://127.0.0.1"
+      - "--api.cors.headers=Content-Type,h-captcha-response"
+      - "--api.cors.methods=GET,POST,OPTIONS"
     ports:
       - "9097:9090"
     environment:
