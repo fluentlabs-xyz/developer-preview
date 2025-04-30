@@ -105,12 +105,12 @@ services:
     command:
       - "--proxycount=2"
       - "--api.only"
-      - "--httpport=9090"
+      - "--httpport=9091"
       - "--api.cors.allowed=http://localhost,http://127.0.0.1"
       - "--api.cors.headers=Content-Type,h-captcha-response"
       - "--api.cors.methods=GET,POST,OPTIONS"
     ports:
-      - "9097:9090"
+      - "9097:9091"
     environment:
       WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
       PRIVATE_KEY: "${FAUCET_API_PRIVATE_KEY}"
