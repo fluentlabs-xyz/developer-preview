@@ -1,40 +1,40 @@
+---
 version: "3.5"
 services:
   fluent:
-    image: "ghcr.io/fluentlabs-xyz/fluent:v0.2.0-dev"
+    image: ghcr.io/fluentlabs-xyz/fluent:v0.2.0-dev
     container_name: fluent
     command:
-      - "node"
-      - "--chain=developer-preview"
-      - "--datadir=/datadir"
-      - "--dev"
-      - "--dev.block-time=3sec"
-      - "--full"
-      - "--http"
-      - "--http.addr=0.0.0.0"
-      - "--http.api=eth,net,web3,debug,trace,txpool"
-      - "--http.port=8545"
-      - "--http.corsdomain=*"
-      - "--ws"
-      - "--ws.addr=0.0.0.0"
-      - "--ws.api=eth,net,web3,debug,trace,txpool"
-      - "--ws.port=8546"
-      - "--ws.origins=*"
-      - "--engine.persistence-threshold=0"
-      - "--engine.memory-block-buffer-target=0"
-      - "--txpool.gas-limit=3000000000"
-      - "--builder.gaslimit=3000000000"
-      - "--metrics=0.0.0.0:9091"
+      - node
+      - --chain=developer-preview
+      - --datadir=/datadir
+      - --dev
+      - --dev.block-time=3sec
+      - --full
+      - --http
+      - --http.addr=0.0.0.0
+      - --http.api=eth,net,web3,debug,trace,txpool
+      - --http.port=8545
+      - --http.corsdomain=*
+      - --ws
+      - --ws.addr=0.0.0.0
+      - --ws.api=eth,net,web3,debug,trace,txpool
+      - --ws.port=8546
+      - --ws.origins=*
+      - --engine.persistence-threshold=0
+      - --engine.memory-block-buffer-target=0
+      - --txpool.gas-limit=3000000000
+      - --builder.gaslimit=3000000000
+      - --metrics=0.0.0.0:9091
     volumes:
-      - "./datadir:/datadir"
+      - ./datadir:/datadir
     ports:
-      - "8545:8545"
-      - "8546:8546"
-      - "9091:9091"
+      - 8545:8545
+      - 8546:8546
+      - 9091:9091
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
     restart: always
-
   prometheus:
     restart: unless-stopped
     image: prom/prometheus
@@ -48,7 +48,6 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       - --storage.tsdb.path=/prometheus
-
   grafana:
     restart: unless-stopped
     image: grafana/grafana:latest
@@ -59,124 +58,113 @@ services:
       - 3001:3000
     environment:
       PROMETHEUS_URL: http://prometheus:9090
-      AUTH_GOOGLE_CLIENT_ID: "${GRAFANA_AUTH_GOOGLE_CLIENT_ID}"
-      AUTH_GOOGLE_CLIENT_SECRET: "${GRAFANA_AUTH_GOOGLE_CLIENT_SECRET}"
-      ROOT_URL: "https://dashboard.${DOMAIN_NAME}/"
+      AUTH_GOOGLE_CLIENT_ID: ${GRAFANA_AUTH_GOOGLE_CLIENT_ID}
+      AUTH_GOOGLE_CLIENT_SECRET: ${GRAFANA_AUTH_GOOGLE_CLIENT_SECRET}
+      ROOT_URL: https://dashboard.${DOMAIN_NAME}/
     volumes:
       - ./.data/monitoring/grafana:/var/lib/grafana
       - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./monitoring/grafana/dashboards:/etc/grafana/provisioning_temp/dashboards
       - ./monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini
-    # 1. Copy dashboards from temp directory to prevent modifying original host files
-    # 2. Replace Prometheus datasource placeholder with the actual name
-    # 3. Run Grafana
     entrypoint: >
-      sh -c "cp -r /etc/grafana/provisioning_temp/dashboards/. /etc/grafana/provisioning/dashboards &&
-             find /etc/grafana/provisioning/dashboards/ -name '*.json' -exec sed -i 's/$${DS_PROMETHEUS}/Prometheus/g' {} \+ &&
-             /run.sh"
-
+      sh -c "cp -r /etc/grafana/provisioning_temp/dashboards/.
+      /etc/grafana/provisioning/dashboards && find
+      /etc/grafana/provisioning/dashboards/ -name '*.json' -exec sed -i
+      's/$${DS_PROMETHEUS}/Prometheus/g' {} \+ && /run.sh"
   ethereum-metrics-exporter:
     image: ethpandaops/ethereum-metrics-exporter:latest
     container_name: ethereum-metrics-exporter
     ports:
-      - "9098:9090"
+      - 9098:9090
     volumes:
       - ./monitoring/ethereum-metrics-exporter/config.yaml:/config.yaml
     command:
-      - "--config=/config.yaml"
+      - --config=/config.yaml
     restart: unless-stopped
-
   faucet:
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3"
+    image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3
     command:
-      - "--proxycount=2"
+      - --proxycount=2
     ports:
-      - "9099:9090"
+      - 9099:9090
     environment:
-      WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
-      PRIVATE_KEY: "${PRIVATE_KEY}"
-      HCAPTCHA_SITEKEY: "${HCAPTCHA_SITEKEY}"
-      HCAPTCHA_SECRET: "${HCAPTCHA_SECRET}"
+      WEB3_PROVIDER: https://rpc.${DOMAIN_NAME}/
+      PRIVATE_KEY: ${PRIVATE_KEY}
+      HCAPTCHA_SITEKEY: ${HCAPTCHA_SITEKEY}
+      HCAPTCHA_SECRET: ${HCAPTCHA_SECRET}
     depends_on:
       - fluent
     restart: always
-  faucet-api: # faucet in api only mode
-    image: "ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.4"
+  faucet-api:
+    image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.4
     command:
-      - "--proxycount=2"
-      - "--api.only"
-      - "--httpport=9091"
-      - "--api.cors.allowed=https://dev.gblend.xyz/"
-      - "--api.cors.headers=Content-Type,h-captcha-response"
-      - "--api.cors.methods=GET,POST,OPTIONS"
+      - --proxycount=2
+      - --api.only
+      - --httpport=9091
+      - --api.cors.allowed=https://dev.gblend.xyz/
+      - --api.cors.headers=Content-Type,h-captcha-response
+      - --api.cors.methods=GET,POST,OPTIONS
     ports:
-      - "9097:9091"
+      - 9097:9091
     environment:
-      WEB3_PROVIDER: "https://rpc.${DOMAIN_NAME}/"
-      PRIVATE_KEY: "${FAUCET_API_PRIVATE_KEY}"
-      HCAPTCHA_SITEKEY: "${HCAPTCHA_SITEKEY}"
-      HCAPTCHA_SECRET: "${HCAPTCHA_SECRET}"
+      WEB3_PROVIDER: https://rpc.${DOMAIN_NAME}/
+      PRIVATE_KEY: ${FAUCET_API_PRIVATE_KEY}
+      HCAPTCHA_SITEKEY: ${HCAPTCHA_SITEKEY}
+      HCAPTCHA_SECRET: ${HCAPTCHA_SECRET}
     depends_on:
       - fluent
     restart: always
   rundler:
-    image: "ghcr.io/fluentlabs-xyz/rundler:v0.6.0"
+    image: ghcr.io/fluentlabs-xyz/rundler:v0.6.0
     command: node
     environment:
-      # Core settings
       - RUST_LOG=info
       - NODE_HTTP=http://fluent:8545
       - BUILDER_PRIVATE_KEY=${RUNDLER_PRIVATE_KEY}
       - NETWORK=fluent_dev
       - USER_OPERATION_EVENT_BLOCK_DISTANCE=10000
-
-      # RPC settings
       - RPC_HOST=0.0.0.0
       - RPC_PORT=8645
       - RPC_API=eth,debug,rundler
       - RPC_CORSDOMAIN=*
-
-      # Metrics settings
       - METRICS_HOST=0.0.0.0
       - METRICS_PORT=8646
-
-      # Entry point settings
       - DISABLE_ENTRY_POINT_V0_6=true
     ports:
-      - "8645:8645" # RPC
-      - "8646:8646" # Metrics
+      - 8645:8645
+      - 8646:8646
     depends_on:
       - fluent
     restart: always
   relayer:
-    image: "ghcr.io/fluentlabs-xyz/bridge-relayer:latest"
+    image: ghcr.io/fluentlabs-xyz/bridge-relayer:latest
     environment:
-      L1_CONFIG_ENDPOINT: "https://ethereum-holesky-rpc.publicnode.com"
-      L1_CONFIG_WS: "wss://ethereum-holesky-rpc.publicnode.com"
+      L1_CONFIG_ENDPOINT: https://ethereum-holesky-rpc.publicnode.com
+      L1_CONFIG_WS: wss://ethereum-holesky-rpc.publicnode.com
       L1_CONFIG_BRIDGE_ADDRESS: "0x5239B4bd18Aaf0B4ece18D30Db1aE452AB50FdB9"
-      L1_CONFIG_SIGNER: "e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7"
-      L2_CONFIG_ENDPOINT: "https://rpc.${DOMAIN_NAME}/"
-      L2_CONFIG_WS: "wss://rpc.${DOMAIN_NAME}/ws"
+      L1_CONFIG_SIGNER: e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7
+      L2_CONFIG_ENDPOINT: https://rpc.${DOMAIN_NAME}/
+      L2_CONFIG_WS: wss://rpc.${DOMAIN_NAME}/ws
       L2_CONFIG_BRIDGE_ADDRESS: "0xDe3c9062861A0dFA366c170cAbc5235cce5e5F4B"
-      L2_CONFIG_SIGNER: "e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7"
+      L2_CONFIG_SIGNER: e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7
       RELAYER_ENABLED: "true"
       DA_ENABLED: "false"
       CELESTIA_ENABLED: "false"
       EIGEN_ENABLED: "false"
       AVAIL_ENABLED: "false"
-      RELAYER_REDIS_ENDPOINT: "redis:6379"
+      RELAYER_REDIS_ENDPOINT: redis:6379
     restart: always
   nginx:
-    build: "./nginx"
+    build: ./nginx
     environment:
-      DOMAIN_NAME: "${DOMAIN_NAME}"
+      DOMAIN_NAME: ${DOMAIN_NAME}
     volumes:
       - /root/.acme.sh/:/root/.acme.sh/
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
     ports:
-      - "443:443"
-      - "80:80"
+      - 443:443
+      - 80:80
     restart: always
   redis:
     image: redis:latest
