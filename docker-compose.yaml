@@ -1,11 +1,11 @@
 version: "3.5"
 services:
   fluent:
-    image: "ghcr.io/fluentlabs-xyz/fluent:v0.1.0-dev.13"
+    image: "ghcr.io/fluentlabs-xyz/fluent:v0.2.0-dev"
     container_name: fluent
     command:
-      - "--chain=developer-preview"
       - "node"
+      - "--chain=developer-preview"
       - "--datadir=/datadir"
       - "--dev"
       - "--dev.block-time=3sec"

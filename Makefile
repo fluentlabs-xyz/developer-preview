@@ -26,8 +26,8 @@ cook: check-env
 
 .PHONY: start
 start: check-env
-	cat ./docker-compose.yaml | envsubst | docker-compose -f - pull
-	cat ./docker-compose.yaml | envsubst | docker-compose -f - up -d --build
+	cat ./docker-compose.yaml | envsubst | docker compose -f - pull
+	cat ./docker-compose.yaml | envsubst | docker compose -f - up -d --build
 
 .PHONY: stop
 stop: check-env
