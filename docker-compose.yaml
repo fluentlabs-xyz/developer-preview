@@ -66,10 +66,13 @@ services:
       - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./monitoring/grafana/dashboards:/etc/grafana/provisioning_temp/dashboards
       - ./monitoring/grafana/config/grafana.ini:/etc/grafana/grafana.ini
+    # 1. Copy dashboards from temp directory to prevent modifying original host files
+    # 2. Replace Prometheus datasource placeholder with the actual name
+    # 3. Run Grafana
     entrypoint: >
-      sh -c "cp -r /etc/grafana/provisioning_temp/dashboards/.
-      /etc/grafana/provisioning/dashboards && find
-      /etc/grafana/provisioning/dashboards/ -name '*.json' -exec sed -i 's/${DS_PROMETHEUS}/Prometheus/g' {} \+ && /run.sh"
+      sh -c "cp -r /etc/grafana/provisioning_temp/dashboards/. /etc/grafana/provisioning/dashboards &&
+             find /etc/grafana/provisioning/dashboards/ -name '*.json' -exec sed -i 's/$${DS_PROMETHEUS}/Prometheus/g' {} \+ &&
+             /run.sh"
   ethereum-metrics-exporter:
     image: ethpandaops/ethereum-metrics-exporter:latest
     container_name: ethereum-metrics-exporter
