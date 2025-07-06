@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   redis-db:
@@ -26,26 +26,17 @@ services:
     extends:
       file: ./services/backend.yml
       service: backend
-    build:
-      context: ..
-      dockerfile: ./docker/Dockerfile
-      args:
-        CACHE_EXCHANGE_RATES_PERIOD: ""
-        API_V1_READ_METHODS_DISABLED: "false"
-        DISABLE_WEBAPP: "false"
-        API_V1_WRITE_METHODS_DISABLED: "false"
-        CACHE_TOTAL_GAS_USAGE_COUNTER_ENABLED: ""
-        CACHE_ADDRESS_WITH_BALANCES_UPDATE_INTERVAL: ""
-        ADMIN_PANEL_ENABLED: ""
-        RELEASE_VERSION: 6.9.0
     links:
       - db:database
     environment:
-        ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8545/
-        JSON_RPC: http://host.docker.internal:8545/
-        CHAIN_ID: '1337'
+      MICROSERVICE_FLUENT_VERIFIER_URL:
+        http://fluent-verifier:8050
+        # ETHEREUM_JSONRPC_VARIANT: 'geth'
+        # CHAIN_ID: '20993'
+        # CHAIN_TYPE: ethereum
+    networks:
+      - default
+      - fluent_net
 
   visualizer:
     extends:
@@ -63,9 +54,7 @@ services:
     extends:
       file: ./services/frontend.yml
       service: frontend
-    environment:
-      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: "2e84a2d5eee1827d4d2a89625741c51f"
-      NEXT_PUBLIC_NETWORK_RPC_URL: "https://rpc.dev.gblend.xyz"
+
   stats-db-init:
     extends:
       file: ./services/stats.yml
@@ -94,6 +83,8 @@ services:
     extends:
       file: ./services/user-ops-indexer.yml
       service: user-ops-indexer
+    networks:
+      - default
 
   proxy:
     depends_on:
@@ -103,3 +94,31 @@ services:
     extends:
       file: ./services/nginx.yml
       service: proxy
+    networks:
+      - default
+
+  fluent-verifier:
+    user: root
+    image: ghcr.io/fluentlabs-xyz/fluent-verifier:c5daa90c303892785f49cfdd9a42d147e22845cf
+    container_name: fluent-verifier
+    platform: linux/amd64
+    depends_on:
+      - backend
+    ports:
+      - "8089:8050"
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - RUST_LOG=info
+      - FLUENT_VERIFIER__DOCKER_API__NETWORK=developer-preview_default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - default
+      - fluent_net
+
+networks:
+  default:
+    name: blockscout2_default
+  fluent_net:
+    name: developer-preview_default
+    external: true

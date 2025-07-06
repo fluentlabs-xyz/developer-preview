@@ -4,6 +4,9 @@
 .env
 .DS_Store
 
+# prev version
+blockscout-7.0.2/
+
 # exclude modiifed files
 blockscout/envs/common-blockscout.env
 blockscout/envs/common-frontend.env
@@ -13,6 +16,6 @@ blockscout/services/blockscout-db-data/
 blockscout/services/logs/
 blockscout/services/redis-data/
 blockscout/services/stats-db-data/
-
+blockscout/services/dets/
 
 /.data/
