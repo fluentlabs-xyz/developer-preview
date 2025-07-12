@@ -2,7 +2,7 @@
 version: "3.5"
 services:
   fluent:
-    image: ghcr.io/fluentlabs-xyz/fluent:v0.3.3-dev
+    image: ghcr.io/fluentlabs-xyz/fluent:v0.3.5-dev
     container_name: fluent
     command:
       - node
