@@ -90,7 +90,7 @@ services:
     ports:
       - 9099:9090
     environment:
-      WEB3_PROVIDER: https://rpc.${DOMAIN_NAME}/
+      WEB3_PROVIDER: http://fluent:8545/
       PRIVATE_KEY: ${PRIVATE_KEY}
       HCAPTCHA_SITEKEY: ${HCAPTCHA_SITEKEY}
       HCAPTCHA_SECRET: ${HCAPTCHA_SECRET}
@@ -109,7 +109,7 @@ services:
     ports:
       - 9097:9091
     environment:
-      WEB3_PROVIDER: https://rpc.${DOMAIN_NAME}/
+      WEB3_PROVIDER: http://fluent:8545/
       PRIVATE_KEY: ${FAUCET_API_PRIVATE_KEY}
       HCAPTCHA_SITEKEY: ${HCAPTCHA_SITEKEY}
       HCAPTCHA_SECRET: ${HCAPTCHA_SECRET}
@@ -145,8 +145,8 @@ services:
       L1_CONFIG_WS: wss://ethereum-holesky-rpc.publicnode.com
       L1_CONFIG_BRIDGE_ADDRESS: "0x5239B4bd18Aaf0B4ece18D30Db1aE452AB50FdB9"
       L1_CONFIG_SIGNER: e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7
-      L2_CONFIG_ENDPOINT: https://rpc.${DOMAIN_NAME}/
-      L2_CONFIG_WS: wss://rpc.${DOMAIN_NAME}/ws
+      L2_CONFIG_ENDPOINT: http://fluent:8545/
+      L2_CONFIG_WS: ws://fluent:8545/ws
       L2_CONFIG_BRIDGE_ADDRESS: "0xDe3c9062861A0dFA366c170cAbc5235cce5e5F4B"
       L2_CONFIG_SIGNER: e2d5c4f37c863ef55779345bb3725b63bb4e17b51f9e6cad2c0e57e39d7c7ff7
       RELAYER_ENABLED: "true"
