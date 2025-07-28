@@ -3,7 +3,7 @@ consensus:
   url: "http://lighthouse:5052"
   name: "consensus-client"
 execution:
-  enabled: true
+  enabled: false
   url: "http://fluent:8545"
   name: "execution-client"
   modules:

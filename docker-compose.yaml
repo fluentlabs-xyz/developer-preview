@@ -73,16 +73,16 @@ services:
       sh -c "cp -r /etc/grafana/provisioning_temp/dashboards/. /etc/grafana/provisioning/dashboards &&
              find /etc/grafana/provisioning/dashboards/ -name '*.json' -exec sed -i 's/$${DS_PROMETHEUS}/Prometheus/g' {} \+ &&
              /run.sh"
-  ethereum-metrics-exporter:
-    image: ethpandaops/ethereum-metrics-exporter:latest
-    container_name: ethereum-metrics-exporter
-    ports:
-      - 9098:9090
-    volumes:
-      - ./monitoring/ethereum-metrics-exporter/config.yaml:/config.yaml
-    command:
-      - --config=/config.yaml
-    restart: unless-stopped
+  # ethereum-metrics-exporter:
+  #   image: ethpandaops/ethereum-metrics-exporter:latest
+  #   container_name: ethereum-metrics-exporter
+  #   ports:
+  #     - 9098:9090
+  #   volumes:
+  #     - ./monitoring/ethereum-metrics-exporter/config.yaml:/config.yaml
+  #   command:
+  #     - --config=/config.yaml
+  #   restart: unless-stopped
   faucet:
     image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3
     command:
