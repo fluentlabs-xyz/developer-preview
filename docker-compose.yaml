@@ -84,7 +84,7 @@ services:
   #     - --config=/config.yaml
   #   restart: unless-stopped
   faucet:
-    image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.3
+    image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.5
     command:
       - --proxycount=2
     ports:
@@ -98,7 +98,7 @@ services:
       - fluent
     restart: always
   faucet-api:
-    image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.4
+    image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.5
     command:
       - --proxycount=2
       - --api.only
