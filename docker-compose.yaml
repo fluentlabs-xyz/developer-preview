@@ -83,18 +83,18 @@ services:
   #   command:
   #     - --config=/config.yaml
   #   restart: unless-stopped
-
   faucet-api:
     image: ghcr.io/fluentlabs-xyz/eth-faucet:v1.2.5
     command:
       - --proxycount=2
       - --api.only
       - --httpport=9091
-      - --api.cors.allowed=https://dev.gblend.xyz
+      - --metrics.port=9090
+      - --api.cors.allowed=https://dev.gblend.xyz/,https://dev.gblend.xyz
       - --api.cors.headers=Content-Type,h-captcha-response
       - --api.cors.methods=GET,POST,OPTIONS
     ports:
-      - 9097:9091
+      - 9097:9090
     environment:
       WEB3_PROVIDER: http://fluent:8545/
       PRIVATE_KEY: ${FAUCET_API_PRIVATE_KEY}

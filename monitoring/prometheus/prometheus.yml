@@ -13,4 +13,4 @@ scrape_configs:
     metrics_path: "/metrics"
     scrape_interval: 5s
     static_configs:
-      - targets: ['faucet-api:9091']
+      - targets: ['faucet-api:9090']
